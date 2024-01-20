@@ -1,21 +1,50 @@
 // src/components/Square.js
-import React from "react";
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useEffect,
+  useState,
+  memo,
+} from "react";
+import "./Square.css";
 
-const Square = React.memo(({ value, playerTokens }) => {
-  console.count("square-re-rendere");
+const Square = forwardRef(({ value, playerTokens, currSnakeOrLadder }, ref) => {
+  console.count("req-sq");
+
+  const [tokens, setTokens] = useState(playerTokens || []);
+
+  useEffect(() => {
+    setTokens(playerTokens || []);
+  }, [playerTokens]);
+
+  useImperativeHandle(ref, () => ({
+    updateSquare(newPlayerTokens) {
+      setTokens((prev) => [...prev, newPlayerTokens] || []);
+    },
+    removePlayer(playerToken) {
+      console.log("remove", playerToken);
+      const filtered = [...tokens].filter((token) => token !== playerToken);
+      setTokens(filtered);
+    },
+  }));
+
   return (
-    <div className="square">
-      <div className="square-content">
-        <div>{value}</div>
-        {playerTokens &&
-          playerTokens.map((token, index) => (
-            <div key={index} className={`player-token p${index + 1}`}>
-              {token}
-            </div>
-          ))}
+    <div>
+      <div className="square square-content">
+        {currSnakeOrLadder && (
+          <div>
+            {currSnakeOrLadder.type}-{currSnakeOrLadder.end}
+          </div>
+        )}
+        <div className="value">{value}</div>
+        {tokens.map((token, index) => (
+          <div key={index} className={`player-token ${token}`}>
+            {token}
+          </div>
+        ))}
       </div>
     </div>
   );
 });
 
-export default Square;
+export default memo(Square);

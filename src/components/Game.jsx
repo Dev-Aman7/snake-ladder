@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import PlayerSelection from "./PlayersSelection";
 import Board from "./Board";
-import Dice from "./Dice";
 
 const Game = () => {
   const [gameStarted, setGameStarted] = useState(false);
@@ -13,13 +12,18 @@ const Game = () => {
     setGameStarted(true);
   };
 
+  const resetGame = () => {
+    setGameStarted(false);
+    setNumPlayers(2);
+  };
+
   return (
     <div className="Game">
       {!gameStarted ? (
         <PlayerSelection onStartGame={handleStartGame} />
       ) : (
         <div>
-          <Board numPlayers={numPlayers} />
+          <Board numPlayers={numPlayers} resetGame={resetGame} />
         </div>
       )}
     </div>
