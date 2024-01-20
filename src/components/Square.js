@@ -1,4 +1,3 @@
-// src/components/Square.js
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -22,7 +21,6 @@ const Square = forwardRef(({ value, playerTokens, currSnakeOrLadder }, ref) => {
       setTokens((prev) => [...prev, newPlayerTokens] || []);
     },
     removePlayer(playerToken) {
-      console.log("remove", playerToken);
       const filtered = [...tokens].filter((token) => token !== playerToken);
       setTokens(filtered);
     },

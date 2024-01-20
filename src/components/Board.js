@@ -1,11 +1,5 @@
 // src/components/Board.js
-import React, {
-  useEffect,
-  useCallback,
-  useState,
-  useRef,
-  useMemo,
-} from "react";
+import React, { useState, useRef, useMemo } from "react";
 import Square from "./Square";
 import Dice from "./Dice";
 import "./Board.css";
@@ -29,11 +23,6 @@ const Board = ({ numPlayers, resetGame }) => {
   const squareRefs = useRef(
     Array.from({ length: 100 }).map(() => React.createRef())
   );
-
-  useEffect(() => {
-    // Handle logic when numPlayers changes
-    // This may include resetting player positions or other game state
-  }, [numPlayers]);
 
   const generateSnakesAndLadders = (
     currentPosition,
@@ -85,12 +74,12 @@ const Board = ({ numPlayers, resetGame }) => {
       );
     }
 
-    // Switch to the next player
     if (currentPlayerPosition === 100) {
       alert(`Player ${currentPlayer} wins`);
       resetGame();
     }
     setCurrentPlayer((prevPlayer) => (prevPlayer % numPlayers) + 1);
+    // Switch to the next player
     setPlayerPositions(updatedPlayerPositions);
   };
 
